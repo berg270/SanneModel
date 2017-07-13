@@ -1,10 +1,11 @@
-# Implement niche overlap (check Vellend)
 
 #Function to simulate 1 death-birth/immigration event
 DeathBirthImm <- function(COM, #community composition, length=nr of species, integers (nr of ind per species)
                      freq.meta, #frequencies of the n species in the meta-community
                      fitnesses, #fitnesses of the different species
-                     prob.m) #immigration probability
+                     prob.m, #immigration probability
+                     inter=0.5, #niche overlap with another species
+                     intra=1)#niche overlap of a species with itself
 {
   #Measure nr of species
   n <- length(COM)
@@ -17,8 +18,10 @@ DeathBirthImm <- function(COM, #community composition, length=nr of species, int
   immigrant.species <- sample(c(1:n), 1, prob=freq.meta)
   immigrant <- COM*0
   immigrant[immigrant.species] <- 1
+  #Define species niche overlap
+  alpha <- diag(n)*intra + (1-diag(n))*inter
   #Calculate probabilities to reproduce IF reproduction occurs
-  prob.repro  <- fitnesses*COM/sum(fitnesses*COM)
+  prob.repro  <- c(fitnesses*COM*diag(alpha)/((fitnesses*COM)%*%alpha))
   #Define species that will produce the newborn IF reproduction occurs
   newborn.species <- sample(c(1:n), 1, prob=prob.repro)
   newborn <- COM*0
