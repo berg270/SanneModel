@@ -20,8 +20,3 @@ Test <- IterateTimeDynamics(num.itrs=num.itrs,COM.0=COM.0,
                             fitnesses=fitnesses, prob.m=prob.m)
 
 
-
-#Initialize plot
-plot(0,0, xlab = "Time", col="transparent",
-     ylab = "Frequency of species 1", 
-     ylim = c(0, 1), xlim=c(1,num.years))
